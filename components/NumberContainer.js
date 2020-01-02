@@ -7,10 +7,12 @@ import {
 
 import Colors from '../constants/colors';
 
-const numberContainer = props => {
+const NumberContainer = props => {
+  return (
   <View style={styles.container}>
     <Text style={styles.number}>{props.children}</Text>
   </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -27,6 +29,6 @@ const styles = StyleSheet.create({
     color: Colors.tertiary,
     fontSize: 22
   }
-})
+});
 
-export default numberContainer;
+export default NumberContainer;
