@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  StyleSheet, 
+import {
+  View,
+  StyleSheet,
   Text,
   Button,
   Alert,
@@ -14,13 +14,22 @@ import TitleText from '../components/TitleText';
 
 const GameOverScreen = props => {
   return (
-    <View style={styles.screen} > 
+    <View style={styles.screen} >
       <TitleText>The Game is Over</TitleText>
-      <BodyText>Number of Rounds: {props.roundsNumber}</BodyText>
-      <BodyText>Number was: {props.userNumber}</BodyText>
-      <Image style={styles.image} source={require('../assets/success.png')} />
-      <View style={styles.newGameButtonContainer}>
-        <Button title="New Game" onPress={props.onRestart} color={Colors.primary} /> 
+        <View style={styles.imageContainer}>
+        <Image 
+          fadeDuration={1000}
+          style={styles.image} 
+          //source={require('../assets/success.png')} //local image
+          source={{uri: 'https://cdn.pixabay.com/photo/2020/01/04/21/21/animal-4741740_960_720.jpg'}} //web image
+          resizeMode="cover" />
+      </View>
+      <Text style={styles.resultContainer}>
+        <BodyText style={styles.resultText}>
+          Your phone needed <Text style={styles.highlight}>{props.roundsNumber}</Text> rounds to guess the number <Text style={styles.highlight}>{props.userNumber}</Text></BodyText>
+      </Text>
+      <View style={styles.newGameButtonContainer}>  
+        <Button title="New Game" onPress={props.onRestart} color={Colors.primary} />
       </View>
     </View>
   );
@@ -35,10 +44,31 @@ const styles = StyleSheet.create({
   newGameButtonContainer: {
     marginTop: 20
   },
-  image: {
-    width: '80%',
+  imageContainer: {
+    width: 300,
     height: 300,
-    marginTop: 20
+    borderRadius: 150,
+    borderWidth: 3,
+    borderColor: 'black',
+    overflow: 'hidden',
+    marginVertical: 30
+  },
+  image: {
+    width: '100%',
+    height: '100%'
+  },
+  resultText: {
+    textAlign: 'center',
+    fontSize: 20
+  },
+  resultContainer: {
+    marginHorizontal: 30,
+    textAlign: 'center',
+    marginVertical: 15
+  },
+  highlight: {
+    color: Colors.primary,
+    fontFamily: 'open-sans-bold'
   }
 });
 
