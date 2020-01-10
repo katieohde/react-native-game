@@ -39,6 +39,8 @@ const GameScreen = props => {
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+  const [availableDeviceWidth, setAvailableDeviceWidth] = useState(Dimensions.get('window').width);
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(Dimensions.get('window').height);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -74,6 +76,27 @@ const GameScreen = props => {
     setPastGuesses(curPastGuesses => [nextNumber,...curPastGuesses]);
   };
 
+  if (Dimensions.get('window').height < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text style={DefaultStyles.title}>Opponent's Guess</Text>
+        <View style={DefaultStyles.controls}>
+          <MainButton onPress={nextGuessHandler.bind(this, 'lower')} style={styles.button} color={Colors.tertiary} >
+              <Ionicons name="md-remove" size={24} color="black" />
+          </MainButton>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <MainButton onPress={nextGuessHandler.bind(this, 'greater')} style={styles.button} color={Colors.dark} >
+            <Ionicons name="md-add" size={24} color="black" />
+          </MainButton>
+        </View>
+      <View style={styles.listContainer}>
+        <ScrollView contentContainerStyle={styles.list}>  
+          {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
+        </ScrollView>
+      </View>
+    </View>
+    )
+  }
   return (
     <View style={styles.screen}>
       <Text style={DefaultStyles.title}>Opponent's Guess</Text>
@@ -114,6 +137,12 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100
+  },
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '80%'
   },
   listContainer: {
     flex: 1,
